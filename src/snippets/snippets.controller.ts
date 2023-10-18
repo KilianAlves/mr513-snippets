@@ -1,8 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
+import { prisma } from '../services/prima';
 
 export class SnippetsController {
     
-    static list(req: Request, res: Response, next: NextFunction): void {
-        throw new Error("Ceci est un message d'erreur");
+    static async list(req: Request, res: Response, next: NextFunction): Promise<void> {
+        
+        const snippets = await prisma.snippet.findMany();
+        res.render('snippets/snippets_list', {'snippets': snippets });
     }
 }
