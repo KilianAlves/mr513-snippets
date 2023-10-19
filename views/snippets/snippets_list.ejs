@@ -1,7 +1,9 @@
 <%- include('../partials/header') -%>
     <div class="content">
-        <% snippets.forEach((snippet) => { %>
+        <% snippets.forEach((snippet) => {
+        console.log(snippet)%>
             <div class="card">
+                <i class="<%= snippet["language"]["logo"]%> colored"></i>
                 <h2><%= snippet["title"] %></h2>
                 <pre><%= snippet["code"] %></pre>
                 <p><%= snippet["description"] %></p>
