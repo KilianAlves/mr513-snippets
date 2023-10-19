@@ -1,15 +1,15 @@
 <%- include('../partials/header') -%>
     <div class="content">
-        <% snippets.forEach((snippet) => {
-        console.log(snippet)%>
+        <% snippets.forEach((snippet) => { %>
             <div class="card">
                 <i class="<%= snippet["language"]["logo"]%> colored"></i>
                 <h2><%= snippet["title"] %></h2>
-                <pre><%= snippet["code"] %></pre>
+                <pre><code class="<%= snippet["language"]["htmlClass"] %>"> <%= snippet["code"] %></code></pre>
                 <p><%= snippet["description"] %></p>
                 <span><%= snippet["creationDate"] %></span>
             </div>
        <% }) %>
     </div>
+    <script src="js/prism.js"></script>
 </body>
 </html>
