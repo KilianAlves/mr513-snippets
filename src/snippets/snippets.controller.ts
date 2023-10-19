@@ -5,12 +5,27 @@ export class SnippetsController {
 
     static async list(req: Request, res: Response, next: NextFunction): Promise<void> {
 
-        const snippets = await prisma.snippet.findMany(
-            {
-                include: {
-                    language: true,
-                }
-            });
-        res.render('snippets/snippets_list', {'snippets': snippets });
+        const lang = req.query.lang;
+
+        if (lang == undefined) {
+            const snippets = await prisma.snippet.findMany(
+                {
+                    include: {
+                        language: true,
+                    }
+                });
+            res.render('snippets/snippets_list', {'snippets': snippets});
+        } else {
+            const snippets = await prisma.snippet.findMany(
+                {
+                    include: {
+                        language: true,
+                    },
+                    where: {
+                        languageId: Number(lang)
+                    }
+                });
+            res.render('snippets/snippets_list', {'snippets': snippets});
+        }
     }
 }
