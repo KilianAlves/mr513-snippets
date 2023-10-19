@@ -7,6 +7,8 @@ export class SnippetsController {
 
         const lang = req.query.lang;
 
+
+        // snippets en fonction du id de language
         if (lang == undefined) {
             const snippets = await prisma.snippet.findMany(
                 {
