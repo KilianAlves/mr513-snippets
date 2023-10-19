@@ -6,24 +6,25 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider          = "mysql"
+  url               = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
-model Snippet {
-    id Int @id @default(autoincrement())
-    title String
-    code String
-    description String?
-    creationDate DateTime
-    language Language @relation(fields: [languageId], references: [id])
+model Language {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  htmlClass String    @default("language-none")
+  logo      String?
+  snippets  Snippet[]
 }
 
-model Language {
-  id Int @id @default(autoincrement())
-  name String @unique
-  htmlClass String @default("language-none")
-  logo String?
-  snippets Snippet[]
+model Snippet {
+  id           Int      @id @default(autoincrement())
+  title        String
+  code         String
+  description  String?
+  creationDate DateTime
+  language     Language @relation(fields: [languageId], references: [id])
+  languageId   Int
 }
