@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
@@ -20,6 +21,19 @@ async function main() {
         }
     });
 
+    await prisma.user.create({
+        data: {
+            name: 'alve0031',
+            hashedPassword: bcrypt.hashSync('Azerty01', 10)
+        }
+    });
+    await prisma.user.create({
+        data: {
+            name: 'mato0009',
+            hashedPassword: bcrypt.hashSync('Azerty01', 10)
+        }
+    });
+
     await prisma.snippet.create({
         data: {
             title: 'Hello World',
@@ -32,6 +46,9 @@ async function main() {
             creationDate: new Date(2023, 4, 8, 9, 12, 36),
             language: {
                 connect : {name : 'C'}
+            },
+            author: {
+                connect : {name : 'alve0031'}
             }
         }
     });
@@ -44,6 +61,9 @@ async function main() {
             description: 'Dans le template EJS, observez le comportement de la page en utilisant successivement les balises <%- et <%=pour injecter les données.',
             language: {
                 connect : {name : 'HTML'}
+            },
+            author: {
+                connect : {name : 'mato0009'}
             }
         }
     });
@@ -56,6 +76,9 @@ async function main() {
             description: 'Telecharge un fichier quand on clique sur le lien.',
             language: {
                 connect : {name : 'HTML'}
+            },
+            author: {
+                connect : {name : 'alve0031'}
             }
         }
     });
