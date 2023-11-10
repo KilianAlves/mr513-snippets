@@ -1,12 +1,12 @@
 import express, { NextFunction, Request, Response } from 'express';
 import session from 'express-session';
-
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config()
-var routes = require('./snippets/snippets.routes');
-
+var routesSnippets = require('./snippets/snippets.routes');
+var routesLanguages = require('./languages/languages.routes');
 const app = express();
-app.use('/', routes);
+app.use('/', routesSnippets);
+app.use('/languages', routesLanguages);
 const port = process.env.port;
 app.set('view engine', 'ejs');
 
