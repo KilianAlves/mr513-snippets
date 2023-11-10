@@ -1,9 +1,16 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { prisma } from "../services/prisma";
+import { validationResult } from "express-validator";
 
 export class SnippetsController {
-    static async list(req: Request, res: Response): Promise<void> {
-        console.log(req.session);
+    static async list(req: Request, res: Response, next: NextFunction): Promise<void> {
+        console.log(" => ", req.session);
+        const result = validationResult(req);
+        console.log(" => ", result);
+        if (!result.isEmpty()){
+            throw new Error(result.array()[0].msg);
+        }
+        
 
         let snippets;
 
@@ -19,5 +26,6 @@ export class SnippetsController {
         }
 
         res.render('./snippets/snippets_list', { snippets: snippets });
+        next();
     }
 }

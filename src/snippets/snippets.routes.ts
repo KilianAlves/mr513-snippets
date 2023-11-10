@@ -8,7 +8,7 @@ import { languageValidator } from '../languages/languages.middlewares';
 const router: Router = express.Router();
 
 router.get('/', 
-    query('lang').isNumeric(),
+    query('lang').isNumeric().optional(),
     query('lang').custom((value: string) => languageValidator(value)),
     expressAsyncHandler(SnippetsController.list)
 );
