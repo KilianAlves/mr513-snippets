@@ -1,33 +1,23 @@
-import { NextFunction, Request, Response } from 'express';
-import { prisma } from '../services/prima';
+import { Request, Response } from "express";
+import { prisma } from "../services/prisma";
 
 export class SnippetsController {
+    static async list(req: Request, res: Response): Promise<void> {
+        console.log(req.session);
 
-    static async list(req: Request, res: Response, next: NextFunction): Promise<void> {
+        let snippets;
 
-        const lang = req.query.lang;
-
-
-        // snippets en fonction du id de language
-        if (lang == undefined) {
-            const snippets = await prisma.snippet.findMany(
-                {
-                    include: {
-                        language: true,
-                    }
-                });
-            res.render('snippets/snippets_list', {'snippets': snippets});
+        if (req.query.lang !== null && req.query.lang !== undefined) {
+            snippets = await prisma.snippet.findMany({
+                where: { languageId: parseInt(req.query.lang as string)},
+                include: { language: true }
+            });
         } else {
-            const snippets = await prisma.snippet.findMany(
-                {
-                    include: {
-                        language: true,
-                    },
-                    where: {
-                        languageId: Number(lang)
-                    }
-                });
-            res.render('snippets/snippets_list', {'snippets': snippets});
+            snippets = await prisma.snippet.findMany({
+                include: { language: true }
+            });
         }
+
+        res.render('./snippets/snippets_list', { snippets: snippets });
     }
 }
